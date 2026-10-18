@@ -41,3 +41,13 @@ Data\_Subject\_\<subject number>\_Session\_\<session number>.h5
 
 ## Support
 For questions on the dataset or the task, contact Johannes Sarnthein at [johannes.sarnthein@usz.ch](johannes.sarnthein@usz.ch).
+
+## Channel names follow the data headers (18 Oct 2026)
+
+In 7 recordings the channel list of channels.tsv did not equal the data-file header (names, order or count), so `mne_bids.read_raw_bids` stopped with 'Channel mismatch' (or 'Duplicate channel names'); EEGDash renamed the data channels by position to the channels.tsv names, which gives wrong labels wherever the two lists are not aligned. Since 18 Oct 2026 every channels.tsv lists exactly the header channels, in header order, with the header names (MNE names: duplicated header labels numbered -0, -1).
+
+Rows were matched to header channels BY NAME, never by position (exact; then case/whitespace; then the recorder prefix 'EEG '/'POL ', '_' and zero padding; then a trailing '-<reference>' token). Matched rows keep all their columns (type, units, status, ...); 22 rows took the header name.
+
+## RecordingType (18 Oct 2026)
+
+The 9 runs were marked `RecordingType` epoched with `EpochLength` 26 s. Each run is one continuous recording of 522 s (one EDF+C record stream / one BrainVision segment) during which 17 film clips of 24 s were shown every 31 s (events.tsv). 26 s does not divide the recording (1,044,000 samples / 52,000 = 20.08) and the event onsets are clip starts, not epoch starts, so `read_epochs_bids` cut one 26-s window per clip and dropped the last one, and `read_raw_bids` refused the files. `RecordingType` is now continuous and `EpochLength` was removed; the clips stay as annotations (onset, duration 24 s, trial_type Neutral/Aversive).
