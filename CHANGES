@@ -1,4 +1,5 @@
 1.1.2 2026-10-22
+  - Replace only U+00AD date separators with ASCII hyphens in nine acquisition timestamps. All calendar, clock and timezone components remain identical; exact original session tables are retained in the sourcedata archive. Original non-BIDS support data remains untouched.
   - channels.tsv of 7 recordings = the data-file header channel list (name, order, count; matched by name): 22 rows renamed to the header name, 0 rows added, 0 rows removed, 0 files reordered. mne_bids read_raw_bids raised 'Channel mismatch'.
   - ieeg.json of the 9 runs: RecordingType epoched -> continuous, EpochLength 26 removed (one continuous 522-s recording per run with 17 clips of 24 s; 26 s does not divide the file).
   - README: section 'Channel names follow the data headers'.
