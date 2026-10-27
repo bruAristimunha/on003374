@@ -1,2 +1,6 @@
 bidsignore/
 .nemar/
+
+# Preserve the source-authored NIX auxiliary tree; match directory and children.
+bidsignore
+bidsignore/**
